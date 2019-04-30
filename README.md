@@ -499,11 +499,11 @@ Start database and possum:
 
 Setup the token key:
 
-    $ docker-compose exec possum-sol possum token-key generate example
+    $ docker-compose exec possum-sol conjurctl account create example
 
 Load the policy:
 
-    $ docker-compose exec possum-sol possum policy load example /policy/policy.yml
+    $ docker-compose exec possum-sol conjurctl policy load example /policy/policy.yml
 
 Enable BDR:
 

@@ -1,30 +1,43 @@
 version: '2'
+networks:
+  possumnet:
+
 services:
-  apidocs:
-    build:
-      context: ./apidocs
-      dockerfile: Dockerfile.apidocs
-    image: conjur-apidocs
-    ports:
-      - 3000:3000
-    volumes:
-      - ./apidocs/src:/home/node/src
-
+#   apidocs:
+#     build:
+#       context: ./apidocs
+#       dockerfile: Dockerfile.apidocs
+#     image: conjur-apidocs
+#     ports:
+#       - 3000:3000
+#     volumes:
+#       - ./apidocs/src:/home/node/src
+# 
   sol:
+    networks:
+      - possumnet
     build: .
-
+    entrypoint: /opt/possum/create.sh
+    
   sirius:
+    networks:
+      - possumnet
     build: .
+    entrypoint: /opt/possum/create.sh
 
   centauri:
     build: .
 
   possum:
-    image: conjurinc/possum
+#    image: conjurinc/possum
+    networks:
+      - possumnet
+    build:
+      context: .
     command: server -p 80
     environment:
-      POSSUM_DATA_KEY: cYnWFEGVxiPzVB7tRX1VfVXrar1to0UhvPY9XrNM0P4=
-      POSSUM_ADMIN_PASSWORD: secret
+      CONJUR_DATA_KEY: cYnWFEGVxiPzVB7tRX1VfVXrar1to0UhvPY9XrNM0P4=
+      CONJUR_ADMIN_PASSWORD: secret
 
   possum-sol:
     extends:
@@ -34,6 +47,8 @@ services:
       DATABASE_URL: postgres://postgres@sol/possum
     volumes:
       - ./policy:/policy
+    ports:
+      - "80:80"
 
   possum-sirius:
     extends:

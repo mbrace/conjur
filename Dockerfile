@@ -20,16 +20,17 @@ RUN apt-get update -y && \
                        ruby2.5 ruby2.5-dev \
                        tzdata \
                        unattended-upgrades \
-                       update-notifier-common
+                       update-notifier-common \
+                       apt-transport-https ca-certificates
 
 ADD pubkeys/pgdg.asc /tmp
 RUN apt-key add /tmp/pgdg.asc && rm /tmp/pgdg.asc && \
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" \
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" \
     > /etc/apt/sources.list.d/pgdg.list
 
 ADD pubkeys/bdr.asc /tmp
 RUN apt-key add /tmp/bdr.asc && rm /tmp/bdr.asc && \
-  echo "deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main" \
+  echo "deb https://apt.2ndquadrant.com/ xenial-2ndquadrant main" \
     > /etc/apt/sources.list.d/bdr.list
 
 RUN apt-get update && \

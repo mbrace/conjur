@@ -86,7 +86,7 @@ Feature: Users can authneticate with OIDC authenticator
     Then it is unauthorized
     And The following appears in the log after my savepoint:
     """
-    Authentication::NotDefinedInConjur
+    Authentication::Security::UserNotDefinedInConjur
     """
 
   Scenario: User that is not permitted to webservice in ID token is denied
@@ -122,7 +122,7 @@ Feature: Users can authneticate with OIDC authenticator
     Then it is a bad request
     And The following appears in the log after my savepoint:
     """
-    Authentication::MissingRequestParam
+    Authentication::RequestBody::MissingRequestParam
     """
 
   Scenario: Empty id token is a bad request
@@ -131,7 +131,7 @@ Feature: Users can authneticate with OIDC authenticator
     Then it is a bad request
     And The following appears in the log after my savepoint:
     """
-    Authentication::MissingRequestParam
+    Authentication::RequestBody::MissingRequestParam
     """
 
     # Should be crashed in GA, update the message to "account does not exists"
